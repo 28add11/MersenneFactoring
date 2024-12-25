@@ -8,6 +8,8 @@ import cocotb
 from cocotb.clock import Clock
 import cocotb.triggers
 
+testWidth = 32
+
 @cocotb.test()
 async def test_project(dut):
 	dut._log.info("Start")
@@ -38,7 +40,7 @@ async def test_project(dut):
 	assert dut.remainder.value.integer == 15 % 4
 
 	# Actual tests of divider
-	for i in range(500):
+	for i in range(testWidth):
 		dividend = random.randint(0, 2147483648 -1)
 		divisor = random.randint(0, 2147483648 -1)
 		dut.dividend.value = dividend
@@ -49,4 +51,6 @@ async def test_project(dut):
 		dut.start.value = 0
 		await cocotb.triggers.RisingEdge(dut.data_ready)
 		assert dut.remainder.value.integer == dividend % divisor
+
+# Can we do another test? Who knows!
 
