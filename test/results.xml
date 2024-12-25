@@ -1,0 +1,6 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1733638718" />
+    <testcase name="test_project" classname="test" file="/mnt/c/Users/kerba/Documents/Programs/MersenneFactoring/test/test.py" lineno="11" time="1.266357660293579" sim_time_ns="546150.001" ratio_time="431276.2643007082" />
+  </testsuite>
+</testsuites>
