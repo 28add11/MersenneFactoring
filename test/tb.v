@@ -3,17 +3,15 @@
 
 module tb();
 
-	// If this is commented out in the repo it's because I don't want a terrabyte of VCD garbage
-	/*
+	// FST testbench files now! no more vcd!
 	initial begin
-		$dumpfile("tb.vcd");
+		$dumpfile("tb.fst");
 		$dumpvars(0, tb);
 	end
-	*/
 
 	// instantiate our divider!
-	reg clk;
-	reg rst_n;
+	reg clk1;
+	reg rst_n1;
 	reg start;
 	reg [31:0] dividend;
 	reg [31:0] divisor;
@@ -21,13 +19,28 @@ module tb();
 	wire data_ready;
 
 	divider modCalculator(
-		.sys_clk(clk),
-		.sys_rst_n(rst_n),
+		.sys_clk(clk1),
+		.sys_rst_n(rst_n1),
 		.start(start),
 		.numerator(dividend),
 		.denominator(divisor),
 		.remainder(remainder),
 		.finished(data_ready)
 	);
+
+	// Set up the squaring module
+
+	reg clk2;
+	reg rst_n2;
+	reg [31:0] x;
+	wire [63:0] y;
+
+	square Square(
+		.sys_clk(clk2),
+		.sys_rst_n(rst_n2),
+		.x(x),
+		.y(y)
+	);
+
 
 endmodule
