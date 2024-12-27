@@ -7,6 +7,8 @@ def smart_binary_square(a):
 	for i in range(32):
 		result += bits[i] << (2*i)
 
+	print(f"Self product is: {result}")
+
 	# Cross product
 	for i in range(32):
 		for j in range(i+1, 32):

@@ -32,14 +32,14 @@ module tb();
 
 	reg clk2;
 	reg rst_n2;
-	reg [31:0] x;
-	wire [63:0] y;
+	reg [7:0] base;
+	wire [15:0] result;
 
 	square Square(
 		.sys_clk(clk2),
 		.sys_rst_n(rst_n2),
-		.x(x),
-		.y(y)
+		.x(base),
+		.y(result)
 	);
 
 

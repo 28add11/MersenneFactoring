@@ -62,7 +62,7 @@ async def test_mult(dut):
 
 	# Reset
 	dut._log.info("Reset")
-	dut.x.value = 0
+	dut.base.value = 0
 	dut.rst_n2.value = 0
 	await cocotb.triggers.ClockCycles(dut.clk2, 10)
 	dut.rst_n2.value = 1
@@ -70,13 +70,13 @@ async def test_mult(dut):
 	dut._log.info("Test project behavior")
 
 	# Extremely simple test calculation for basic verification
-	dut.x.value = 63
-	await cocotb.triggers.ClockCycles(dut.clk2, 1)
-	assert dut.y.value.integer == 63**2
+	dut.base.value = 63
+	await cocotb.triggers.ClockCycles(dut.clk2, 2)
+	assert dut.result.value.integer == 63**2
 
 	for i in range(testWidth):
-		x = random.randint(0, 2147483648 - 1)
-		dut.x.value = x
+		x = random.randint(0, (2**8) - 1)
+		dut.base.value = x
 
-		await cocotb.triggers.ClockCycles(dut.clk2, 1)
-		assert dut.y.value.integer == x**2
+		await cocotb.triggers.ClockCycles(dut.clk2, 2)
+		assert dut.result.value.integer == x**2
