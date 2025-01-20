@@ -8,8 +8,9 @@ import cocotb
 from cocotb.clock import Clock
 import cocotb.triggers
 
-testWidth = 32
+testWidth = 500
 
+'''
 @cocotb.test()
 async def test_mod(dut):
 	dut._log.info("Start")
@@ -80,3 +81,26 @@ async def test_mult(dut):
 
 		await cocotb.triggers.ClockCycles(dut.clk2, 2)
 		assert dut.result.value.integer == x**2
+'''
+		
+@cocotb.test()
+async def test(dut):
+	dut._log.info("Start")
+
+	# Set the clock period to 20 ns (50 MHz)
+	clock = Clock(dut.clk, 20, units="ns")
+	cocotb.start_soon(clock.start())
+
+	# Reset
+	dut._log.info("Reset")
+	dut.base.value = 0
+	dut.rst_n.value = 0
+	await cocotb.triggers.ClockCycles(dut.clk, 10)
+	dut.rst_n.value = 1
+
+	dut._log.info("Test project behavior")
+
+	# Test calculation based on one on mersenne.org website
+	dut.divisor.value = 47
+	dut.exponent.value = 23
+	await cocotb.triggers.RisingEdge(dut.data_ready)

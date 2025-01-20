@@ -9,37 +9,23 @@ module tb();
 		$dumpvars(0, tb);
 	end
 
-	// instantiate our divider!
-	reg clk1;
-	reg rst_n1;
+	reg clk;
+	reg rst_n;
 	reg start;
-	reg [31:0] dividend;
+	reg [31:0] exponent;
 	reg [31:0] divisor;
-	wire [31:0] remainder;
+	wire primality;
 	wire data_ready;
 
-	divider modCalculator(
-		.sys_clk(clk1),
-		.sys_rst_n(rst_n1),
+	// instantiate our module
+	mersenneFactoring mersenneFactoring(
+		.sys_clk(clk),
+		.sys_rst_n(rst_n),
 		.start(start),
-		.numerator(dividend),
-		.denominator(divisor),
-		.remainder(remainder),
+		.p(exponent),
+		.d(divisor),
+		.isPrime(primality),
 		.finished(data_ready)
-	);
-
-	// Set up the squaring module
-
-	reg clk2;
-	reg rst_n2;
-	reg [7:0] base;
-	wire [15:0] result;
-
-	square Square(
-		.sys_clk(clk2),
-		.sys_rst_n(rst_n2),
-		.x(base),
-		.y(result)
 	);
 
 

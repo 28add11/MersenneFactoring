@@ -13,8 +13,7 @@ module square #(
 	wire [BITWIDTH * 2 - 1:0] selfProduct;
 	reg [BITWIDTH * 2 - 1:0] crossProduct;
 
-	genvar i;
-	genvar j;
+	genvar i, j;
 
 	generate
 	// Self product
@@ -27,7 +26,7 @@ module square #(
 	end
 	endgenerate
 
-	/*
+
 	integer k, l;
 
 	// TODO: Look into making this adder tree more efficient than just naieve verilog implementation
@@ -38,25 +37,6 @@ module square #(
 				crossProduct = crossProduct + ((x[k] & x[l]) << (k + l));
 			end
 		end
-	end
-	*/
-	
-	// Cross product
-	integer k, l;
-	wire [BITWIDTH * 2 - 1:0] crossProdTest;
-	// TODO: Look into making this adder tree more efficient than just naieve verilog implementation
-	always @* begin
-		crossProduct = 0; // Assign unused bits to zero and make it accumulate correctly
-		generate
-		for (k = 0; k < BITWIDTH; k = k + 1) begin : gen_crossProduct_outer
-			wire [BITWIDTH - 1:0] crossProd_k;
-			for (l = k + 1; l < BITWIDTH; l = l + 1) begin : gen_crossProduct_inner
-				//crossProduct = crossProduct + ((x[k] & x[l]) << (k + l + 1));
-				crossProd_k[l] = (x[k] & x[l]) << (l);
-			end
-		end
-		
-		endgenerate
 	end
 	
 

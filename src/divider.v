@@ -34,7 +34,7 @@ module divider #(
 	assign finished = ~state;
 	assign nextRemainder = {remainder, dividend[count]};
 	
-	always @(posedge sys_clk) begin
+	always @(posedge sys_clk or negedge sys_rst_n) begin
 		if (start) begin // Initialize everything to starting values
 			state <= DIVIDE;
 			count <= BITWIDTH - 1;
