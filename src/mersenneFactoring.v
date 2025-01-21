@@ -12,8 +12,8 @@ module mersenneFactoring #(
 	output wire finished
 );
 
-	parameter WAIT=1'b0;
-	parameter FACTOR=1'b01;
+	parameter WAIT=0;
+	parameter FACTOR=1;
 
 	reg state;
 
@@ -33,9 +33,10 @@ module mersenneFactoring #(
 		.y(squareResult)
 	);
 
-
-	wire divStart;
+	reg divReady;
+	reg divStart;
 	wire divFinished;
+	wire [BITWIDTH - 1:0] divResult;
 	// Instantiate the divider
 	divider div(
 		.sys_clk(sys_clk),
@@ -43,7 +44,7 @@ module mersenneFactoring #(
 		.start(divStart),
 		.numerator((exponent[iterationCount] ? squareResult[BITWIDTH - 1:0] << 1 : squareResult[BITWIDTH - 1:0])), // Multiplication by 2, following the algorithm
 		.denominator(denominator),
-		.remainder(workingNum),
+		.remainder(divResult),
 		.finished(divFinished)
 	);
 
@@ -58,7 +59,7 @@ module mersenneFactoring #(
 			exponent <= p;
 			workingNum <= 1;
 			iterationCount <= BITWIDTH - 1; // This can be optimized since leading 0s are useless
-			divStart <= 1; // Start up the divider since we have it in an "if" block outside of here, plus 1 clock cycle bonus
+			divStart <= 1;
 			state <= FACTOR;
 		end
 
@@ -67,12 +68,17 @@ module mersenneFactoring #(
 					// Since we're testing for 2^p - 1, we check if the remainder is 1 rather than 0
 					isPrime <= (workingNum == 1) ? 1 : 0;
 					state <= WAIT;
+			end
+			if (divFinished) begin // Since squaring is all combinational this works nicely (TODO: pipeline it more to push higher clocks)
+				workingNum <= divResult;
+				divReady <= 1;
+				if (~divReady) begin
+					divStart <= 1;
+					iterationCount <= iterationCount - 1;
 				end
-
-				if (divFinished) begin // Since squaring is all combinational this works nicely (TODO: pipeline it more to push higher clocks)
-				workingNum <= div.remainder;
-				iterationCount <= iterationCount - 1;
-				divStart <= 1;
+			end else begin
+				divStart <= 0;
+				divReady <= 0;
 			end
 		end
 				

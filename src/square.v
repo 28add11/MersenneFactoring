@@ -6,7 +6,7 @@ module square #(
 	input wire sys_clk,
 	input wire sys_rst_n,
 	input wire [BITWIDTH - 1:0] x,
-	output reg [BITWIDTH * 2 - 1:0] y
+	output wire [BITWIDTH * 2 - 1:0] y
 	);
 
 	// Internal signals and data
@@ -39,7 +39,9 @@ module square #(
 		end
 	end
 	
+	assign y = selfProduct + (crossProduct << 1);
 
+	/*
 	always @(posedge sys_clk or negedge sys_rst_n) begin
 		if (~sys_rst_n) begin
 			y <= 0;
@@ -47,5 +49,5 @@ module square #(
 			y <= selfProduct + (crossProduct << 1);
 		end
 	end
-	
+	*/
 endmodule

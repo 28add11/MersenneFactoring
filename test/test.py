@@ -93,7 +93,6 @@ async def test(dut):
 
 	# Reset
 	dut._log.info("Reset")
-	dut.base.value = 0
 	dut.rst_n.value = 0
 	await cocotb.triggers.ClockCycles(dut.clk, 10)
 	dut.rst_n.value = 1
@@ -103,4 +102,7 @@ async def test(dut):
 	# Test calculation based on one on mersenne.org website
 	dut.divisor.value = 47
 	dut.exponent.value = 23
+	dut.start.value = 1
+	await cocotb.triggers.ClockCycles(dut.clk, 1)
+	dut.start.value = 0
 	await cocotb.triggers.RisingEdge(dut.data_ready)
