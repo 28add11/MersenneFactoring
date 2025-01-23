@@ -1,3 +1,9 @@
+// Nicholas West, 2025
+/*
+	* This file implements the mersenne prime trial factoring algorithm using our custom divider and custom squarer
+	* The algorithm used can be found at https://www.mersenne.org/various/math.php#trial_factoring 
+*/
+
 `default_nettype none
 
 module mersenneFactoring #(

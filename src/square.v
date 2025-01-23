@@ -1,3 +1,10 @@
+// Nicholas West, 2025
+/*
+	* This file describes a binary squaring module for use in the mersenne prime trial factoring algorithm
+	* It uses the same general idea as a multiplier, but we only use half the "cells"
+	* This is because the cross product is symmetric and we can save a lot of space by not calculating the same thing twice
+*/
+
 `default_nettype none
 
 module square #(
@@ -41,13 +48,4 @@ module square #(
 	
 	assign y = selfProduct + (crossProduct << 1);
 
-	/*
-	always @(posedge sys_clk or negedge sys_rst_n) begin
-		if (~sys_rst_n) begin
-			y <= 0;
-		end else begin
-			y <= selfProduct + (crossProduct << 1);
-		end
-	end
-	*/
 endmodule
