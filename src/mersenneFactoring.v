@@ -8,7 +8,7 @@ module mersenneFactoring #(
 	input wire start,
 	input wire [BITWIDTH - 1:0] p,
 	input wire [BITWIDTH - 1:0] d,
-	output reg isPrime,
+	output reg dividesBy,
 	output wire finished
 );
 
@@ -20,7 +20,7 @@ module mersenneFactoring #(
 	reg [BITWIDTH - 1:0] denominator;
 	reg [BITWIDTH - 1:0] exponent;
 	reg [BITWIDTH - 1:0] workingNum;
-	reg [$clog2(BITWIDTH) - 1:0] iterationCount;
+	reg [$clog2(BITWIDTH):0] iterationCount; // Not subtracting by 1 since we will detect overflow with the top bit then stop
 	
 	assign finished = ~state;
 
@@ -50,7 +50,7 @@ module mersenneFactoring #(
 
 	always @(posedge sys_clk or negedge sys_rst_n) begin
 		if (~sys_rst_n) begin
-			isPrime <= 0;
+			dividesBy <= 0;
 			iterationCount <= BITWIDTH - 1;
 			state <= WAIT;
 		end
@@ -64,9 +64,9 @@ module mersenneFactoring #(
 		end
 
 		if (state == FACTOR) begin
-			if (iterationCount == 0) begin
+			if (iterationCount[$clog2(BITWIDTH)] == 1) begin
 					// Since we're testing for 2^p - 1, we check if the remainder is 1 rather than 0
-					isPrime <= (workingNum == 1) ? 1 : 0;
+					dividesBy <= (workingNum == 1) ? 1 : 0;
 					state <= WAIT;
 			end
 			if (divFinished) begin // Since squaring is all combinational this works nicely (TODO: pipeline it more to push higher clocks)

@@ -14,7 +14,7 @@ module tb();
 	reg start;
 	reg [31:0] exponent;
 	reg [31:0] divisor;
-	wire primality;
+	wire divisibility;
 	wire data_ready;
 
 	// instantiate our module
@@ -24,7 +24,7 @@ module tb();
 		.start(start),
 		.p(exponent),
 		.d(divisor),
-		.isPrime(primality),
+		.dividesBy(divisibility),
 		.finished(data_ready)
 	);
 
