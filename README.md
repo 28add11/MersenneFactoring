@@ -2,6 +2,8 @@
 This is a proof of concept for a [Mersenne prime trial factoring](https://www.mersenne.org/various/math.php#trial_factoring) ASIC/FPGA.
 VERY work-in-progress, and doesn't have many particular uses currently, but hopefully that will change in the future!
 
+![An image of the waveforms in GTKwave produced by the design](https://cloud-6413ryc5u-hack-club-bot.vercel.app/0mersennefactor.png)
+
 ## What does it do?
 Currently, it is just a somewhat simple implementation of the algorithm on [the GIMPS website](https://www.mersenne.org/various/math.php#trial_factoring) in Verilog. Given an exponent `p` and a divisor `d` it will try to divide 2^p - 1 by d, and set the `dividesBy` reg accordingly.
 I highly reccomend not using this for any real projects, as I have not fully verified that it works across many primes, which is a crucial part of GIMPS to avoid wasting other people's time and energy. However, I'm hoping to improve it in the future, maybe even to a production ready state!
