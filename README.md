@@ -13,7 +13,7 @@ These components are then all brought together and used to actually calculate if
 
 ## Future goals
 Eventually I want to get this project running on a real FPGA or potentially even taped out if there is enough interest, but first, I have some goals for improvements to make it significantly better.
-1. Clean up squaring module and how modules are laied out to reduce latency
+1. Clean up squaring module and how modules are laid out to reduce latency
    - Currently, the squaring module is a bit of a mess, and doesn't map well in my head to an actual circuit. This is potentially a problem for expanding it and adjusting functionality (such as adding the other ideas in this list!)
    - The modules are also currently laid out and interlinked poorly. While this doesn't change functionality, it adds additional latency that I would really like to reduce for a production product
 2. Improve the division algorithm used
