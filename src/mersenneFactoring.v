@@ -80,8 +80,8 @@ module mersenneFactoring #(
 				divReady <= 1;
 				if (~divReady) begin
 					divStart <= 1;
-					iterationCount <= iterationCount - 1;
-				end
+				iterationCount <= iterationCount - 1;
+			end
 			end else begin
 				divStart <= 0;
 				divReady <= 0;

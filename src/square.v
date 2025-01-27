@@ -18,9 +18,9 @@ module square #(
 
 	// Internal signals and data
 	wire [BITWIDTH * 2 - 1:0] selfProduct;
-	reg [BITWIDTH * 2 - 1:0] crossProduct;
+	//reg [BITWIDTH * 2 - 1:0] crossProduct;
 
-	genvar i, j;
+	genvar i;
 
 	generate
 	// Self product
@@ -33,10 +33,11 @@ module square #(
 	end
 	endgenerate
 
-
+	/*
 	integer k, l;
 
-	// TODO: Look into making this adder tree more efficient than just naieve verilog implementation
+	// I kinda don't like this because of how it's written, but it gets the job done
+	// To elaborate, I think adder trees are prettier so i dont like this as much lmao
 	always @* begin
 		crossProduct = 0; // Assign unused bits to zero and make it accumulate correctly
 		for (k = 0; k < BITWIDTH; k = k + 1) begin : gen_crossProduct_outer
@@ -44,8 +45,34 @@ module square #(
 				crossProduct = crossProduct + ((x[k] & x[l]) << (k + l));
 			end
 		end
-	end
+	end*/
+
+	wire [BITWIDTH * 2 - 1:0] crossProdSum[$clog2(BITWIDTH):0][BITWIDTH - 1:0]; // I sincerely hope the synth tool gets rid of the unesssary wires
+	assign crossProdSum[0][BITWIDTH - 1] = 0; // Initialize unused to zero
+
+	generate
+		genvar k, j;
+		for (k = 0; k < BITWIDTH - 1; k = k + 1) begin : gen_crossProduct
+			wire [BITWIDTH - 1:0] intermediateCrossProd;
+			//assign intermediateCrossProd[k:0] = 0; // Initialize unused to zero
+			//for (j = k + 1; j < BITWIDTH; j = j + 1) begin : gen_crossProduct_inner
+			//	assign intermediateCrossProd[j] = x[k] & x[j];
+			//end
+			// Calculate the actual cross product and left shift by appropriate amount
+			assign intermediateCrossProd = ({BITWIDTH{x[k]}} & {x[BITWIDTH - 1:k + 1], {(k + 1){1'b0}}});
+			assign crossProdSum[0][k] = intermediateCrossProd << k;
+		end
+		for (k = 1; k <= $clog2(BITWIDTH); k = k + 1) begin : adderTreeOuter
+			for (j = 0; j < (BITWIDTH / (2**k)); j = j + 1) begin : adderTreeInner
+				// k is our "layer" of the adder tree, while j is our "connection" in that layer
+				assign crossProdSum[k][j] = crossProdSum[k - 1][2 * j] + crossProdSum[k - 1][2 * j + 1];
+			end
+		end
+	endgenerate
+
+	wire [BITWIDTH * 2 - 1:0] testShit;
+	assign testShit = x[BITWIDTH - 1:0];
 	
-	assign y = selfProduct + (crossProduct << 1);
+	assign y = selfProduct + (crossProdSum[$clog2(BITWIDTH)][0] << 1); // Cross prod * 2 to deal with symmetry in calculation and only calculating half
 
 endmodule

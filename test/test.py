@@ -11,6 +11,35 @@ import cocotb.triggers
 testWidth = 500
 		
 @cocotb.test()
+async def test_mult(dut):
+	dut._log.info("Start")
+
+	# Set the clock period to 33 ns (~30 MHz)
+	clock = Clock(dut.clk2, 33, units="ns")
+	cocotb.start_soon(clock.start())
+
+	# Reset
+	dut._log.info("Reset")
+	dut.x.value = 0
+	dut.rst_n2.value = 0
+	await cocotb.triggers.ClockCycles(dut.clk2, 10)
+	dut.rst_n2.value = 1
+
+	dut._log.info("Test project behavior")
+
+	# Extremely simple test calculation for basic verification
+	dut.x.value = 63
+	await cocotb.triggers.ClockCycles(dut.clk2, 1)
+	assert dut.y.value.integer == 63**2
+
+	for i in range(testWidth):
+		x = random.randint(0, 256 - 1)
+		dut.x.value = x
+
+		await cocotb.triggers.ClockCycles(dut.clk2, 1)
+		assert dut.y.value.integer == x**2
+
+@cocotb.test()
 async def test(dut):
 	dut._log.info("Start")
 

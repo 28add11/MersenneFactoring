@@ -28,5 +28,17 @@ module tb();
 		.finished(data_ready)
 	);
 
+	reg clk2;
+	reg rst_n2;
+	reg [7:0] x;
+	wire [15:0] y;
+
+	square #(8) squarer(
+		.sys_clk(clk2),
+		.sys_rst_n(rst_n2),
+		.x(x),
+		.y(y)
+	);
+
 
 endmodule
