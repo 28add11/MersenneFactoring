@@ -1,9 +1,7 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1738020233" />
-    <testcase name="test_mult" classname="test" file="/mnt/c/Users/kerba/Documents/Programs/MersenneFactoring/test/test.py" lineno="13" time="0.09796619415283203" sim_time_ns="16830.001" ratio_time="171793.96571989293" />
-    <testcase name="test" classname="test" file="/mnt/c/Users/kerba/Documents/Programs/MersenneFactoring/test/test.py" lineno="42" time="2.900131940841675" sim_time_ns="331500.0" ratio_time="114305.14430450094">
-      <failure message="Test failed with RANDOM_SEED=1738020233" />
-    </testcase>
+    <property name="random_seed" value="1738020524" />
+    <testcase name="test_mult" classname="test" file="/mnt/c/Users/kerba/Documents/Programs/MersenneFactoring/test/test.py" lineno="13" time="0.07846522331237793" sim_time_ns="16830.001" ratio_time="214489.93948565057" />
+    <testcase name="test" classname="test" file="/mnt/c/Users/kerba/Documents/Programs/MersenneFactoring/test/test.py" lineno="42" time="57.56444025039673" sim_time_ns="18256860.001000002" ratio_time="317155.1729085766" />
   </testsuite>
 </testsuites>

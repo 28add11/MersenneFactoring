@@ -54,12 +54,11 @@ module square #(
 		genvar k, j;
 		for (k = 0; k < BITWIDTH - 1; k = k + 1) begin : gen_crossProduct
 			wire [BITWIDTH - 1:0] intermediateCrossProd;
-			//assign intermediateCrossProd[k:0] = 0; // Initialize unused to zero
-			//for (j = k + 1; j < BITWIDTH; j = j + 1) begin : gen_crossProduct_inner
-			//	assign intermediateCrossProd[j] = x[k] & x[j];
-			//end
+
 			// Calculate the actual cross product and left shift by appropriate amount
-			assign intermediateCrossProd = ({BITWIDTH{x[k]}} & {x[BITWIDTH - 1:k + 1], {(k + 1){1'b0}}});
+			// The arithmetic is a little weird, we have to extend x[k] to the full bitwidth, and also shift the range we're calculating
+			// to prevent it from only using low bits
+			assign intermediateCrossProd = ({BITWIDTH{x[k]}} & (x[BITWIDTH - 1:k + 1] << k + 1));
 			assign crossProdSum[0][k] = intermediateCrossProd << k;
 		end
 		for (k = 1; k <= $clog2(BITWIDTH); k = k + 1) begin : adderTreeOuter
