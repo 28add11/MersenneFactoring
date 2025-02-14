@@ -18,7 +18,6 @@ module square #(
 
 	// Internal signals and data
 	wire [BITWIDTH * 2 - 1:0] selfProduct;
-	//reg [BITWIDTH * 2 - 1:0] crossProduct;
 
 	genvar i;
 
@@ -33,19 +32,6 @@ module square #(
 	end
 	endgenerate
 
-	/*
-	integer k, l;
-
-	// I kinda don't like this because of how it's written, but it gets the job done
-	// To elaborate, I think adder trees are prettier so i dont like this as much lmao
-	always @* begin
-		crossProduct = 0; // Assign unused bits to zero and make it accumulate correctly
-		for (k = 0; k < BITWIDTH; k = k + 1) begin : gen_crossProduct_outer
-			for (l = k + 1; l < BITWIDTH; l = l + 1) begin : gen_crossProduct_inner
-				crossProduct = crossProduct + ((x[k] & x[l]) << (k + l));
-			end
-		end
-	end*/
 
 	wire [BITWIDTH * 2 - 1:0] crossProdSum[$clog2(BITWIDTH):0][BITWIDTH - 1:0]; // I sincerely hope the synth tool gets rid of the unesssary wires
 	assign crossProdSum[0][BITWIDTH - 1] = 0; // Initialize unused to zero
@@ -69,8 +55,6 @@ module square #(
 		end
 	endgenerate
 
-	wire [BITWIDTH * 2 - 1:0] testShit;
-	assign testShit = x[BITWIDTH - 1:0];
 	
 	assign y = selfProduct + (crossProdSum[$clog2(BITWIDTH)][0] << 1); // Cross prod * 2 to deal with symmetry in calculation and only calculating half
 
