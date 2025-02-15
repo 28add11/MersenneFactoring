@@ -35,8 +35,8 @@ async def test_mult(dut):
 	assert dut.y.value.integer == 63 * 25
 
 	for i in range(testWidth):
-		a = random.randint(0, (2**8) - 1)
-		b = random.randint(0, (2**8) - 1)
+		a = random.randint(0, (2**32) - 1)
+		b = random.randint(0, (2**32) - 1)
 		dut.a.value = a
 		dut.b.value = b
 
