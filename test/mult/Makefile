@@ -2,7 +2,6 @@
 
 include ../common.mk
 
-
 # defaults
 SRC_DIR = $(PWD)/../../src
 PROJECT_SOURCES = multiplier.v

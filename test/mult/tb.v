@@ -11,11 +11,13 @@ module tb();
 
 	reg clk;
 	reg rst_n;
-	reg [32:0] a;
-	reg [32:0] b;
+	reg [31:0] a;
+	reg [31:0] b;
 	wire [63:0] y;
 
 	multiplier #(32) mult(
+		.sys_clk(clk),
+		.sys_rst_n(rst_n),
 		.a(a),
 		.b(b),
 		.y(y)

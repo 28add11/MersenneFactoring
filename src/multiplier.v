@@ -8,26 +8,26 @@
 
 `default_nettype none
 
-module multiply #(
+module multiplier #(
 		parameter BITWIDTH=32
 	) (
+	input wire sys_clk,
+	input wire sys_rst_n,
 	input wire [BITWIDTH - 1:0] a,
 	input wire [BITWIDTH - 1:0] b,
 	output wire [BITWIDTH * 2 - 1:0] y
 	);
 
 	wire [BITWIDTH * 2 - 1:0] sum[$clog2(BITWIDTH):0][BITWIDTH - 1:0]; // I sincerely hope the synth tool gets rid of the unesssary wires
-	assign sum[0][BITWIDTH - 1] = 0; // Initialize unused to zero
 
 	generate
 		genvar k, j;
-		for (k = 0; k < BITWIDTH - 1; k = k + 1) begin : gen_crossProduct
+		for (k = 0; k < BITWIDTH; k = k + 1) begin : gen_crossProduct
 			wire [BITWIDTH - 1:0] intermediateCrossProd;
 
 			// Calculate the actual product and left shift by appropriate amount
-			// The arithmetic is a little weird, we have to extend x[k] to the full bitwidth, and also shift the range we're calculating
-			// to prevent it from only using low bits
-			assign intermediateCrossProd = (a[k] & b);
+			// Extend bitwidth so we use the full width
+			assign intermediateCrossProd = ({BITWIDTH{a[k]}} & b);
 			assign sum[0][k] = intermediateCrossProd << k;
 		end
 		for (k = 1; k <= $clog2(BITWIDTH); k = k + 1) begin : adderTreeOuter
