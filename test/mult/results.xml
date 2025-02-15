@@ -1,6 +1,6 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1739596471" />
-    <testcase name="test_mult" classname="test" file="/mnt/c/Users/kerba/Documents/programs/MersenneFactoring/test/mult/test.py" lineno="13" time="0.1999378204345703" sim_time_ns="16830.001" ratio_time="84176.17518996423" />
+    <property name="random_seed" value="1739599507" />
+    <testcase name="test_mult" classname="test" file="/mnt/c/Users/kerba/Documents/programs/MersenneFactoring/test/mult/test.py" lineno="13" time="0.2484302520751953" sim_time_ns="16830.001" ratio_time="67745.37665769411" />
   </testsuite>
 </testsuites>
