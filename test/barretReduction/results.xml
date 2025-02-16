@@ -1,6 +1,6 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1739655882" />
-    <testcase name="test_mult" classname="test" file="/mnt/c/Users/kerba/Documents/programs/MersenneFactoring/test/barretReduction/test.py" lineno="13" time="1.4815418720245361" sim_time_ns="99396.001" ratio_time="67089.56586166192" />
+    <property name="random_seed" value="1739673100" />
+    <testcase name="test_mult" classname="test" file="/mnt/c/Users/kerba/Documents/programs/MersenneFactoring/test/barretReduction/test.py" lineno="13" time="1.5458147525787354" sim_time_ns="99396.001" ratio_time="64300.072718407646" />
   </testsuite>
 </testsuites>

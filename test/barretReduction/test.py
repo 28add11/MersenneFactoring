@@ -45,7 +45,7 @@ async def test_mult(dut):
 	
 	for i in range(testWidth):
 
-		n = random.randint(2, (2**24) - 1)
+		n = random.randint(2, (2**31) - 1)
 		m = random.randint(ceil(sqrt(n)), n) # Actually test the division
 		dut.numerator.value = n
 		dut.denominator.value = m
