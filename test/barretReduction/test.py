@@ -59,4 +59,3 @@ async def test_mult(dut):
 		dut.start.value = 0
 		await cocotb.triggers.ClockCycles(dut.clk, 2)
 		assert dut.remainder.value.integer == n % m
-		

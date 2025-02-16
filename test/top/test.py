@@ -60,4 +60,3 @@ async def test(dut):
 				assert divisiblePrimes == 0
 			else: 
 				assert divisiblePrimes > 0
-				
